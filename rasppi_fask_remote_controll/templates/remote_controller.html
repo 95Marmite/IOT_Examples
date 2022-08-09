@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.slidecontainer {
+  width: 100%;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 25px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  background: #04AA6D;
+  cursor: pointer;
+}
+
+</style>
+</head>
+<body>
+
+<h1>Remote Controller</h1>
+
+<div class="row">
+  <div class="column">
+    <div class="slidecontainer">
+      <p><- Links | Rechts -></p>
+      <input type="range" min="1" max="100" value="50" class="slider" id="left_right">
+      <p>Value: <span id="demo"></span></p>
+    </div>
+
+  </div>
+  <div class="column">
+    <div class="slidecontainer">
+      <p><- Vorwärts | Rückwerts -></p>
+      <br><br><br><br><br>
+      <input type="range" min="1" max="100" value="50" step="10" class="slider" id="speed" style="transform: rotate(-90deg);">
+      <p>Value: <span id="speedooo"></span></p>
+    </div>
+
+  </div>
+</div>
+
+
+
+<script>
+  var left_right = document.getElementById("left_right");
+  var speed = document.getElementById("speed");
+  var output = document.getElementById("demo");
+  var speedooo = document.getElementById("speedooo");
+  
+  left_right.oninput = function() {
+    output.innerHTML = this.value;
+    var val = this.value
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", `/right_left?value=${val}`, true );
+    xmlHttp.send( null );
+  }
+  speed.oninput = function() {
+    var val = this.value
+    speedooo.innerHTML = this.value;
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", `/speed?value=${val}`, true );
+    xmlHttp.send( null );
+  }
+  </script>
+
+</body>
+</html>
